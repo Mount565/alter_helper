@@ -15,7 +15,9 @@ function turnon_mdl_instrument(){
 }
 
 function turnon_stage_tracking(){
-  mysql -u$mysql_user -p$mysql_password -NBe "UPDATE performance_schema.setup_instruments SET ENABLED = 'YES', TIMED = 'YES' WHERE NAME = 'stage/sql/altering table'" 2> /dev/null
+  mysql -u$mysql_user -p$mysql_password -NBe "UPDATE performance_schema.setup_instruments SET ENABLED = 'YES', TIMED = 'YES' WHERE NAME in ('stage/sql/altering table','stage/sql/optimizing')" 2> /dev/null
+  
+  mysql -u$mysql_user -p$mysql_password -NBe "UPDATE performance_schema.setup_consumers SET ENABLED = 'YES' WHERE NAME='events_stages_current'" 2> /dev/null
 
 }
 
